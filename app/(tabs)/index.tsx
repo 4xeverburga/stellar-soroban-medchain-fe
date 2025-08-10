@@ -5,9 +5,9 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { stellarMediTrack, VerificationResult } from '@/services/stellarMediTrack';
 import { Camera } from 'expo-camera';
-import { AlertTriangle, CheckCircle, Package, Scan, Shield } from 'lucide-react-native';
+import { AlertTriangle, CheckCircle, Package, Scan } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 export default function HomeScreen() {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
@@ -242,17 +242,19 @@ export default function HomeScreen() {
       style={[styles.container, { backgroundColor: themeColors.background }]}
       contentContainerStyle={{ flex: 1, justifyContent: 'center', alignItems: 'center', minHeight: '100%' }}
     >
-      <ThemedView style={styles.header}>
-        <View style={styles.logoContainer}>
-          <Shield size={72} color={themeColors.tint} style={{ marginRight: 16 }} />
-          <ThemedText type="title" style={styles.logoText}>ChainMed</ThemedText>
-        </View>
-      </ThemedView>
+
+
+      {/* Remove header logo, move logo into dashboardCard below */}
 
       <ThemedView style={styles.content}>
         <View style={styles.dashboardCard}>
+          <Image
+            source={require('@/assets/images/icon.jpeg')}
+            style={styles.logoImageLarge}
+            resizeMode="contain"
+          />
           <TouchableOpacity 
-            style={[styles.scanButton, { backgroundColor: themeColors.tint, marginBottom: 24 }]}
+            style={[styles.scanButton, { backgroundColor: themeColors.tint, marginBottom: 24, marginTop: 8 }]}
             onPress={simulateMockScan}
           >
             <Scan size={28} color="white" />
@@ -353,12 +355,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  logoText: {
-    marginLeft: 10,
-    fontSize: 40,
-    fontWeight: 'bold',
-    color: '#22223b',
-    letterSpacing: 1,
+  logoImage: {
+    width: 120,
+    height: 120,
+    marginBottom: 8,
+    alignSelf: 'center',
+  },
+  logoImageLarge: {
+    width: 180,
+    height: 180,
+    marginBottom: 8,
+    alignSelf: 'center',
+    borderRadius: 24,
+    borderWidth: 3,
+    borderColor: '#e0e7ff',
+    backgroundColor: '#fff',
+    overflow: 'hidden',
   },
   dashboardTagline: {
     textAlign: 'center',
@@ -372,11 +384,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 18,
     padding: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
     marginBottom: 24,
     flexGrow: 1,
     justifyContent: 'center',
