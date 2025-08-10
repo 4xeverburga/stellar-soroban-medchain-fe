@@ -280,7 +280,7 @@ export default function HomeScreen() {
           </View>
 
           <TouchableOpacity 
-            style={[styles.demoButton, { backgroundColor: '#f59e0b', marginTop: 24 }]}
+            style={[styles.demoButton, { backgroundColor: themeColors.borderSecondary, marginTop: 24 }]}
             onPress={addSampleMedication}
           >
             <Package size={22} color="white" />
