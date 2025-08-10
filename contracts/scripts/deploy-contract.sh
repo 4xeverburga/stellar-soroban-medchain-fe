@@ -36,7 +36,7 @@ esac
 
 # Build the contract
 echo "🔨 Building contract..."
-cd src/contracts
+cd contracts
 cargo build --target wasm32v1-none --release
 
 # Deploy the contract
@@ -52,7 +52,7 @@ echo "📋 Contract ID: $CONTRACT_ID"
 
 # Save contract ID to environment file
 echo "💾 Saving contract ID to .env file..."
-cd ../..
+cd ..
 echo "SOROBAN_CONTRACT_ID=$CONTRACT_ID" >> .env
 
 echo "🎉 Deployment complete!"
