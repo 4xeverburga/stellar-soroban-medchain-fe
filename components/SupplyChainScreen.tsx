@@ -2,20 +2,20 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { VerificationResult } from '@/services/stellarMediTrack';
+import { VerificationResult, huaweiBCS } from '@/services/huaweiBCS';
 import {
-	AlertTriangle,
-	Building,
-	Calendar,
-	CheckCircle,
-	Clock,
-	Factory,
-	Hospital,
-	MapPin,
-	Package,
-	Shield,
-	Truck,
-	X
+  AlertTriangle,
+  Building,
+  Calendar,
+  CheckCircle,
+  Clock,
+  Factory,
+  Hospital,
+  MapPin,
+  Package,
+  Shield,
+  Truck,
+  X
 } from 'lucide-react-native';
 import React from 'react';
 import { Modal, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -88,7 +88,7 @@ export default function SupplyChainScreen({ visible, onClose, verificationResult
                   {isValid ? 'Medicamento Auténtico' : 'Medicamento No Verificado'}
                 </ThemedText>
                 <ThemedText style={styles.statusSubtitle}>
-                  {isValid ? 'Verificado en Stellar Blockchain' : 'No registrado en blockchain'}
+                  {isValid ? 'Verificado en Blockchain' : 'No registrado en blockchain'}
                 </ThemedText>
               </View>
             </View>
@@ -167,7 +167,7 @@ export default function SupplyChainScreen({ visible, onClose, verificationResult
               
               <View style={styles.networkInfo}>
                 <ThemedText style={styles.networkText}>
-                  Red: Stellar Testnet
+                  Red: {huaweiBCS.getConfig().mode === 'local' ? 'Simulador Local' : 'Huawei BCS'}
                 </ThemedText>
                 <View style={[styles.networkStatus, { backgroundColor: '#22c55e' }]}>
                   <ThemedText style={styles.networkStatusText}>CONFIRMADO</ThemedText>

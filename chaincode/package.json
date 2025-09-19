@@ -1,0 +1,33 @@
+{
+  "name": "drug-traceability-chaincode",
+  "version": "1.0.0",
+  "description": "Drug Traceability Chaincode for Huawei BCS (Hyperledger Fabric)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "npm run test:unit",
+    "test:unit": "mocha --recursive"
+  },
+  "dependencies": {
+    "fabric-shim": "^2.2.0",
+    "fabric-contract-api": "^2.2.0"
+  },
+  "devDependencies": {
+    "mocha": "^9.2.0",
+    "chai": "^4.3.0",
+    "sinon": "^13.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "hyperledger",
+    "fabric",
+    "chaincode",
+    "drug-traceability",
+    "pharmaceutical",
+    "blockchain"
+  ],
+  "author": "MedChain Team",
+  "license": "MIT"
+}
