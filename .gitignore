@@ -162,3 +162,20 @@ Thumbs.db
 test-results/
 playwright-report/
 test-results.xml 
+# Huawei BCS certs y config locales (NO subir)
+chaincode/test-demo/certs/
+chaincode/test-demo/hfc-kvs/
+chaincode/test-demo/msp/
+chaincode/test-demo/wallet/
+chaincode/test-demo/config.yaml
+
+# Paquetes descargados y extraídos
+chaincode/archivos/*-config.zip
+chaincode/archivos/pharmaorg-config/
+chaincode/archivos/regulator-config/
+
+# Demos y SDKs locales pesados
+chaincode/archivos/gosdkdemo/src/fabric-sdk-go/
+
+# Binarios/temporal Go
+*.exe
