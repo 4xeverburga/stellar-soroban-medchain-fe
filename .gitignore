@@ -179,3 +179,6 @@ chaincode/archivos/gosdkdemo/src/fabric-sdk-go/
 
 # Binarios/temporal Go
 *.exe
+# SDK local – no subir
+chaincode/test-demo/fabric-sdk-go/
+chaincode/archivos/gosdkdemo/src/fabric-sdk-go/
