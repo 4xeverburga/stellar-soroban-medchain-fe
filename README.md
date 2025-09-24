@@ -1,14 +1,14 @@
 # MediTrack Latam - Frontend
 
-## 📱 Aplicación de Trazabilidad Farmacéutica con Stellar
+## 📱 Aplicación de Trazabilidad Farmacéutica con Huawei Cloud BCS
 
-MediTrack Latam es una aplicación móvil desarrollada con React Native y Expo que permite la trazabilidad completa de medicamentos utilizando la tecnología blockchain de Stellar. La aplicación está diseñada para combatir la falsificación de medicamentos en América Latina mediante verificación criptográfica instantánea.
+MediTrack Latam es una aplicación móvil desarrollada con React Native y Expo que permite la trazabilidad completa de medicamentos utilizando Huawei Cloud Blockchain Service (BCS) sobre Hyperledger Fabric. La aplicación está diseñada para combatir la falsificación de medicamentos en América Latina mediante verificación criptográfica instantánea vía un gateway HTTP hacia BCS.
 
 ## 🚀 Características Principales
 
 ### 🔍 Verificación Instantánea
 - Escaneo de códigos DataMatrix y QR en medicamentos
-- Verificación criptográfica en tiempo real usando Stellar blockchain
+- Verificación criptográfica en tiempo real usando Huawei Cloud BCS (Fabric) a través de un gateway HTTP
 - Detección inmediata de medicamentos falsificados o no autorizados
 
 ### 📦 Trazabilidad Completa
@@ -22,17 +22,18 @@ MediTrack Latam es una aplicación móvil desarrollada con React Native y Expo q
 - Bloqueo de distribución de productos comprometidos
 
 ### 🔐 Seguridad Blockchain
-- Registro inmutable en Stellar blockchain
+- Registro inmutable en Huawei Cloud BCS (Hyperledger Fabric)
 - Verificación criptográfica de autenticidad
 - Protección contra manipulación de datos
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **React Native** con Expo SDK 53
+- **React Native** con Expo SDK 54
 - **TypeScript** para tipado fuerte
-- **Stellar SDK** para interacción con blockchain
-- **Expo Camera** para escaneo de códigos
-- **AsyncStorage** para persistencia local
+- **Huawei Cloud Blockchain Service (BCS)** sobre **Hyperledger Fabric** (vía API Gateway REST)
+- **Fabric SDK** (en el gateway/backend, no dentro de la app móvil)
+- **Expo Camera / Barcode Scanner** para escaneo de códigos
+- **AsyncStorage** para persistencia local y modo demo
 - **Lucide React Native** para iconografía
 
 ## 📋 Requisitos Previos
@@ -86,7 +87,8 @@ components/                 # Componentes reutilizables
 ├── ThemedView.tsx
 └── ui/                     # Componentes UI específicos
 services/                   # Servicios y lógica de negocio
-└── stellarMediTrack.ts     # Servicio principal de Stellar
+├── huaweiBcs.ts            # Cliente del gateway HTTP hacia Huawei BCS
+└── stellarMediTrack.ts     # Servicio de demo/offline usando AsyncStorage
 constants/                  # Constantes y configuraciones
 └── Colors.ts
 hooks/                      # Custom hooks
@@ -95,14 +97,20 @@ hooks/                      # Custom hooks
 
 ## 🔧 Servicios Principales
 
-### StellarMediTrackService
+### HuaweiBCSService (`services/huaweiBcs.ts`)
 
-Servicio principal que maneja la interacción con Stellar blockchain:
+Cliente HTTP del gateway que conecta con Huawei Cloud BCS (Fabric):
 
-- `commissionMedication()` - Registra un nuevo medicamento
+- `commissionMedication()` - Registra un nuevo medicamento en el ledger (vía gateway)
 - `verifyMedication()` - Verifica autenticidad y obtiene historial
 - `addTrackingEvent()` - Añade eventos de trazabilidad
-- `issueMedicationRecall()` - Emite recalls de medicamentos
+- `getVerificationStats()` - Estadísticas de verificaciones
+
+Base URL configurable con `CHAINMED_GATEWAY_URL` (default: `http://localhost:3001/api`).
+
+### StellarMediTrackService (`services/stellarMediTrack.ts`)
+
+Servicio de demo que simula operaciones blockchain con `AsyncStorage` para escenarios offline y pruebas locales.
 
 ## 📱 Funcionalidades por Pantalla
 
@@ -145,14 +153,18 @@ interface TrackingEvent {
 }
 ```
 
-## 🌐 Integración con Stellar
+## 🌐 Integración con Huawei Cloud BCS
 
-La aplicación utiliza Stellar Testnet para desarrollo:
+La aplicación se integra con Huawei Cloud Blockchain Service (Hyperledger Fabric) mediante un gateway HTTP:
 
-- **Red:** Stellar Testnet (https://horizon-testnet.stellar.org)
-- **Assets:** Cada medicamento se representa como un asset único
-- **Transacciones:** Eventos de trazabilidad se registran como transacciones
-- **Almacenamiento:** Datos adicionales en AsyncStorage para demo
+- **Gateway REST**: traduce llamadas de la app a invocaciones/query de chaincode en BCS.
+- **Endpoints** (en el gateway):
+  - `POST /commissionMedication`
+  - `POST /addTrackingEvent`
+  - `GET  /verifyMedication?id=...`
+  - `GET  /getVerificationStats`
+- **Seguridad**: manejo de identidades MSP/TLS ocurre en el backend/gateway (no en la app móvil).
+- **Configuración**: `CHAINMED_GATEWAY_URL` define el endpoint base del gateway.
 
 ## 🧪 Testing y Desarrollo
 
@@ -189,7 +201,7 @@ eas build --platform ios
 ## 🛡️ Seguridad
 
 ### Medidas Implementadas
-- Verificación criptográfica mediante Stellar (simulada)
+- Verificación criptográfica mediante Huawei Cloud BCS (a través de gateway)
 - Almacenamiento seguro de datos de medicamentos
 - Validación de códigos de medicamentos
 - Protección contra manipulación de datos
@@ -198,6 +210,13 @@ eas build --platform ios
 - Datos sensibles almacenados localmente de forma segura
 - Solo información necesaria para verificación
 - Cumplimiento con regulaciones de privacidad
+
+## ⚙️ Configuración
+
+Variables relevantes (app/gateway):
+
+- `CHAINMED_GATEWAY_URL` (app): URL base del gateway HTTP hacia BCS. Si no se define, usa `http://localhost:3001/api`.
+- Variables backend opcionales (si usas tu propio gateway): `PORT`, `NODE_ENV`, `JWT_SECRET`, entre otras.
 
 ## 📄 Características Implementadas
 
@@ -214,10 +233,10 @@ eas build --platform ios
 - [x] Diseño responsive para móviles
 
 ### 🚧 Para Implementación Futura
-- [ ] Integración real con Stellar Mainnet
-- [ ] Soroban Smart Contracts
+- [ ] Integración completa con chaincode en Huawei Cloud BCS (end-to-end)
+- [ ] Endpoints adicionales (recalls) en el gateway
+- [ ] Autenticación de usuarios (JWT/OAuth2)
 - [ ] Notificaciones push
-- [ ] Autenticación de usuarios
 - [ ] Sincronización en tiempo real
 - [ ] Reporting avanzado
 
@@ -231,7 +250,7 @@ eas build --platform ios
 
 ## 📧 Contacto
 
-Desarrollado para el Hackathon Stellar 2025 - Categoría: Pharmaceutical Supply Chain Traceability
+Desarrollado para demostraciones y PoC de trazabilidad farmacéutica con Huawei Cloud BCS.
 
 ---
 
