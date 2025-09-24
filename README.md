@@ -1,8 +1,8 @@
-# MediTrack Latam - Frontend
+# Chainmed - Frontend
 
 ## 📱 Aplicación de Trazabilidad Farmacéutica con Huawei Cloud BCS
 
-MediTrack Latam es una aplicación móvil desarrollada con React Native y Expo que permite la trazabilidad completa de medicamentos utilizando Huawei Cloud Blockchain Service (BCS) sobre Hyperledger Fabric. La aplicación está diseñada para combatir la falsificación de medicamentos en América Latina mediante verificación criptográfica instantánea vía un gateway HTTP hacia BCS.
+Chainmed es una aplicación móvil desarrollada con React Native y Expo que permite la trazabilidad completa de medicamentos utilizando Huawei Cloud Blockchain Service (BCS) sobre Hyperledger Fabric. La aplicación está diseñada para combatir la falsificación de medicamentos en América Latina mediante verificación criptográfica instantánea vía un gateway HTTP hacia BCS.
 
 ## 🚀 Características Principales
 
@@ -88,7 +88,7 @@ components/                 # Componentes reutilizables
 └── ui/                     # Componentes UI específicos
 services/                   # Servicios y lógica de negocio
 ├── huaweiBcs.ts            # Cliente del gateway HTTP hacia Huawei BCS
-└── stellarMediTrack.ts     # Servicio de demo/offline usando AsyncStorage
+└── (demo offline)          # Servicio de demo/offline con AsyncStorage
 constants/                  # Constantes y configuraciones
 └── Colors.ts
 hooks/                      # Custom hooks
@@ -108,9 +108,9 @@ Cliente HTTP del gateway que conecta con Huawei Cloud BCS (Fabric):
 
 Base URL configurable con `CHAINMED_GATEWAY_URL` (default: `http://localhost:3001/api`).
 
-### StellarMediTrackService (`services/stellarMediTrack.ts`)
+### Servicio de Demo Offline
 
-Servicio de demo que simula operaciones blockchain con `AsyncStorage` para escenarios offline y pruebas locales.
+Simulación de operaciones de trazabilidad con `AsyncStorage` para escenarios offline y pruebas locales.
 
 ## 📱 Funcionalidades por Pantalla
 
@@ -250,8 +250,12 @@ Variables relevantes (app/gateway):
 
 ## 📧 Contacto
 
-Desarrollado para demostraciones y PoC de trazabilidad farmacéutica con Huawei Cloud BCS.
+Proyecto: Chainmed
+
+Equipo: Block4Change
+
+Participación: Competencia de Huawei (Huawei Cloud BCS)
 
 ---
 
-**MediTrack Latam** - Revolucionando la trazabilidad farmacéutica en América Latina con tecnología blockchain.
+**Chainmed** - Revolucionando la trazabilidad farmacéutica en América Latina con tecnología blockchain.
