@@ -3,7 +3,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { huaweiBCS, VerificationResult } from '@/services/huaweiBCS';
+import { stellarMediTrack, VerificationResult } from '@/services/stellarMediTrack';
 import { Camera } from 'expo-camera';
 import { AlertTriangle, CheckCircle, Package, Scan } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
@@ -31,8 +31,8 @@ export default function HomeScreen() {
 
     const initializeService = async () => {
       try {
-        await huaweiBCS.initialize();
-        const verificationStats = await huaweiBCS.getVerificationStats();
+        await stellarMediTrack.initialize();
+        const verificationStats = await stellarMediTrack.getVerificationStats();
         setStats(verificationStats);
       } catch (error) {
         console.error('Failed to initialize service:', error);
@@ -49,7 +49,7 @@ export default function HomeScreen() {
     
     try {
       // Try to verify the medication
-      const result = await huaweiBCS.verifyMedication(data);
+      const result = await stellarMediTrack.verifyMedication(data);
       
       // Store the verification result and show the supply chain screen
       setVerificationResult(result);
@@ -114,7 +114,7 @@ export default function HomeScreen() {
 
     // Always use the medicationId returned by commissionMedication
     let medicationId = 'abc123demo456';
-    let verificationResult = await huaweiBCS.verifyMedication(medicationId);
+    let verificationResult = await stellarMediTrack.verifyMedication(medicationId);
 
     if (!verificationResult.isValid) {
       // Create a complete sample medication with full tracking chain (rich mockup)
@@ -127,7 +127,7 @@ export default function HomeScreen() {
         productName: 'Paracetamol 500mg'
       };
 
-      medicationId = await huaweiBCS.commissionMedication(sampleMed);
+      medicationId = await stellarMediTrack.commissionMedication(sampleMed);
 
       // Add a detailed supply chain (do NOT add commission event)
       const trackingEvents = [
@@ -176,10 +176,10 @@ export default function HomeScreen() {
       ];
 
       for (const event of trackingEvents) {
-        await huaweiBCS.addTrackingEvent(medicationId, event);
+        await stellarMediTrack.addTrackingEvent(medicationId, event);
       }
 
-      verificationResult = await huaweiBCS.verifyMedication(medicationId);
+      verificationResult = await stellarMediTrack.verifyMedication(medicationId);
     }
 
     // Show the supply chain screen directly
@@ -187,7 +187,7 @@ export default function HomeScreen() {
     setShowSupplyChain(true);
 
     // Refresh stats
-    const newStats = await huaweiBCS.getVerificationStats();
+    const newStats = await stellarMediTrack.getVerificationStats();
     setStats(newStats);
   };
 
@@ -211,10 +211,10 @@ export default function HomeScreen() {
         productName: 'Paracetamol 500mg'
       };
       
-      const medicationId = await huaweiBCS.commissionMedication(sampleMed);
+      const medicationId = await stellarMediTrack.commissionMedication(sampleMed);
       
       // Add tracking events
-      await huaweiBCS.addTrackingEvent(medicationId, {
+      await stellarMediTrack.addTrackingEvent(medicationId, {
         event: 'ship',
         location: 'Centro Distribución Lima',
         timestamp: new Date().toISOString(),
@@ -229,7 +229,7 @@ export default function HomeScreen() {
       );
       
       // Refresh stats
-      const newStats = await huaweiBCS.getVerificationStats();
+      const newStats = await stellarMediTrack.getVerificationStats();
       setStats(newStats);
     } catch (error) {
       console.error('Failed to create sample medication:', error);
@@ -311,7 +311,7 @@ export default function HomeScreen() {
               </View>
               
               <ThemedText style={styles.instructionText}>
-                📋 El medicamento será verificado automáticamente en la blockchain
+                📋 El medicamento será verificado automáticamente en la blockchain de Stellar
               </ThemedText>
             </View>
             
