@@ -37,6 +37,7 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+<<<<<<< HEAD
 # Dependencies
 node_modules/
 npm-debug.log*
@@ -182,3 +183,5 @@ chaincode/archivos/gosdkdemo/src/fabric-sdk-go/
 # SDK local – no subir
 chaincode/test-demo/fabric-sdk-go/
 chaincode/archivos/gosdkdemo/src/fabric-sdk-go/
+=======
+>>>>>>> parent of 3205fbe (<Contract>)
